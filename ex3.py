@@ -12,7 +12,7 @@ def add_number(num_buf, num_list):
 def calculate(numbers, signs):
     result = numbers[0]
     for i in range(0, len(signs)):
-        if signs[i] == '+':
+        if signs[i]:  # if it's equal to '+'
             result += numbers[i + 1]
         else:
             result -= numbers[i + 1]
@@ -31,7 +31,7 @@ def ebnf(input_string):
         elif char in ('+', '-'):
             add_number(number_buf, numbers)
             number_buf = ''
-            signs.append(char)
+            signs.append(char == '+')  # memory optimization, we store bool instead of str
         else:
             raise ValueError('Unsupported character')
 
