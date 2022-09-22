@@ -1,7 +1,7 @@
 import argparse
 
 
-def calculate(a, action, b):
+def calculate(a: float, action, b: float):
     match action:
         case '+':
             return a + b
@@ -11,6 +11,7 @@ def calculate(a, action, b):
             return a * b
         case '/':
             return a / b
+    return ValueError('Unsupported action')
 
 
 parser = argparse.ArgumentParser()
