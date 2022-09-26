@@ -1,35 +1,39 @@
 import argparse
 
 
-def max_knapsack_weight(capacity, weights):
-    n_bars = len(capacity)
-    table = [[0 for _ in range(capacity + 1)] for _ in range(n_bars + 1)]
-    for i in range(n_bars):
-        for j in range(capacity):
-            if i == 0 or j == 0:
-                table[i][j] = 0
-            elif int(weights[i - 1]) <= j:
-                table[i][j] = max(
-                    int(weights[i - 1]) + table[i - 1][j - int(weights[i - 1])],
-                    table[i - 1][j]
-                )
-            else:
-                table[i][j] = table[i - 1][j]
+def knapsack(capacity: int, bars: list):
+    sum_bars = sum(bars)
+    # If knapsack is bigger than sum of bars, it can store all of them.
+    if capacity >= sum_bars:
+        return sum_bars
 
-    return table[n_bars][capacity]
+    # Let`s solve this task with dynamic programming.
+    # This task is subset sum problem,
+    # a variation of knapsack problems.
+    bars = sorted(bars)
+    row = [0] * (capacity + 1)  # plus zero item
+
+    # Iterate over sorted list of bars
+    for i in range(len(bars)):
+        # We need to count cells from current bar value
+        # to sum of bar values from first to current.
+        # This regularity is got empirically.
+        for j in range(min(sum(bars[0:i+1]), capacity), bars[i] - 1, -1):
+            row[j] = max(row[j], row[j - bars[i]] + bars[i])
+
+    return row[-1]
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-W', type=int, dest='capacity')
-parser.add_argument('-w', type=int, dest='weights', nargs='+')
-parser.add_argument('-n', type=int, dest='n_bars')
+parser.add_argument('-W', '--capacity', type=int)
+parser.add_argument('-w', '--weights', type=int, nargs='+')
+
+# I don't know what is it for,
+# so let's check if it is correct
+parser.add_argument('-n', '--bars_number', type=int)
 args = parser.parse_args()
 
-# it's not clear what is -n for,
-# because we can use len(weights),
-# so let's just add a check if the value is valid
-if args.n_bars != len(args.weights):
-    raise ValueError('Wrong number of bars')
+if args.bars_number != len(args.weights):
+    raise ValueError('Wrong bars number')
 
-print(max_knapsack_weight(args.capacity,
-                          args.weights))
+print(knapsack(args.capacity, args.weights))

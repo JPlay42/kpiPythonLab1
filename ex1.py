@@ -1,17 +1,20 @@
 import argparse
+import operator
 
 
-def calculate(a: float, action, b: float):
-    match action:
-        case '+':
-            return a + b
-        case '-':
-            return a - b
-        case '*':
-            return a * b
-        case '/':
-            return a / b
-    return ValueError('Unsupported action')
+def calculate(a: float, action: str, b: float):
+    actions = {
+        '+': operator.add,
+        '-': operator.sub,
+        '*': operator.mul,
+        '/': operator.truediv
+    }
+
+    if action not in actions:
+        raise AttributeError('Unsupported operator')
+
+    func = actions[action]
+    return func(a, b)
 
 
 parser = argparse.ArgumentParser()

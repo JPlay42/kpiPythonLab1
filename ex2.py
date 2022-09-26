@@ -1,9 +1,17 @@
 import argparse
 import math
 import operator
+from types import ModuleType
 
 
-def run_from_modules(modules, func_name, *params):
+def check_tuple(arg: tuple, name: str, entry_type: type):
+    if not all(isinstance(n, entry_type) for n in arg):
+        raise AttributeError('Wrong entry type in ' + name)
+
+
+def run_from_modules(modules: tuple, func_name: str, *params: tuple):
+    check_tuple(modules, 'modules', ModuleType)
+
     for module in modules:
         if hasattr(module, func_name):
             func = getattr(module, func_name)
