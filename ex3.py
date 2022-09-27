@@ -6,18 +6,12 @@ def add_number(num_buf: str, num_list: list):
     if num_buf == '':
         # sign after sign, like '2++2'
         # or sign at the beginning, like '+2+3'
-        raise AttributeError('Operation sign must be after the number')
+        raise ValueError('Operation sign must be after the number')
 
     num_list.append(int(num_buf))
 
 
 def calculate(numbers: list, signs: list):
-    if not isinstance(numbers, list) or not all(isinstance(n, int) for n in numbers):
-        raise AttributeError('Wrong type of \'numbers\'')
-
-    if not isinstance(signs, list) or not all(isinstance(n, bool) for n in signs):
-        raise AttributeError('Wrong type of \'signs\'')
-
     result = numbers[0]
     for i in range(0, len(signs)):
         if signs[i]:  # if it's equal to '+'
@@ -28,7 +22,7 @@ def calculate(numbers: list, signs: list):
     return result
 
 
-def ebnf(input_string):
+def ebnf(input_string: str):
     numbers = []
     signs = []
 
@@ -58,5 +52,5 @@ input_str = args.expression
 
 try:
     print("True, " + str(ebnf(input_str)))
-except AttributeError:
+except ValueError:
     print("False, None")
