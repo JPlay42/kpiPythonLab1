@@ -12,6 +12,12 @@ def add_number(num_buf: str, num_list: list):
 
 
 def calculate(numbers: list, signs: list):
+    if not all(isinstance(i, int) for i in numbers):
+        raise ValueError('Numbers list should contain only numbers')
+
+    if not all(isinstance(i, bool) for i in signs):
+        raise ValueError('Signs list should contain only bools')
+
     result = numbers[0]
     for i in range(0, len(signs)):
         if signs[i]:  # if it's equal to '+'
