@@ -58,5 +58,5 @@ input_str = args.expression
 
 try:
     print("True, " + str(ebnf(input_str)))
-except ValueError:
+except AttributeError:
     print("False, None")
