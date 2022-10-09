@@ -11,7 +11,7 @@ def add_number(num_buf: str, num_list: list):
     num_list.append(int(num_buf))
 
 
-def calculate(numbers: list, signs: list):
+def __calculate(numbers: list, signs: list):
     if not all(isinstance(i, int) for i in numbers):
         raise ValueError('Numbers list should contain only numbers')
 
@@ -29,6 +29,9 @@ def calculate(numbers: list, signs: list):
 
 
 def ebnf(input_string: str):
+    if not isinstance(input_string, str):
+        raise TypeError('Input value should be str')
+
     numbers = []
     signs = []
 
@@ -48,15 +51,16 @@ def ebnf(input_string: str):
     if len(numbers) - len(signs) != 1:
         raise ValueError('Invalid format')
 
-    return calculate(numbers, signs)
+    return __calculate(numbers, signs)
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('expression', type=str)
-args = parser.parse_args()
-input_str = args.expression
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('expression', type=str)
+    args = parser.parse_args()
+    input_str = args.expression
 
-try:
-    print("True, " + str(ebnf(input_str)))
-except ValueError:
-    print("False, None")
+    try:
+        print("True, " + str(ebnf(input_str)))
+    except ValueError:
+        print("False, None")

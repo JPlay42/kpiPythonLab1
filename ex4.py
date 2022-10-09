@@ -2,6 +2,15 @@ import argparse
 
 
 def knapsack(capacity: int, bars: list):
+    if not isinstance(capacity, int):
+        raise TypeError('Capacity should be int')
+
+    if not isinstance(bars, list):
+        raise TypeError('Bars should be list')
+
+    if not all(isinstance(bar, int) for bar in bars):
+        raise TypeError('Each bar should be int')
+
     sum_bars = sum(bars)
     # If knapsack is bigger than sum of bars, it can store all of them.
     if capacity >= sum_bars:
@@ -24,16 +33,17 @@ def knapsack(capacity: int, bars: list):
     return row[-1]
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-W', '--capacity', type=int)
-parser.add_argument('-w', '--weights', type=int, nargs='+')
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-W', '--capacity', type=int)
+    parser.add_argument('-w', '--weights', type=int, nargs='+')
 
-# I don't know what is it for,
-# so let's check if it is correct
-parser.add_argument('-n', '--bars_number', type=int)
-args = parser.parse_args()
+    # I don't know what is it for,
+    # so let's check if it is correct
+    parser.add_argument('-n', '--bars_number', type=int)
+    args = parser.parse_args()
 
-if args.bars_number != len(args.weights):
-    raise ValueError('Wrong bars number')
+    if args.bars_number != len(args.weights):
+        raise ValueError('Wrong bars number')
 
-print(knapsack(args.capacity, args.weights))
+    print(knapsack(args.capacity, args.weights))
