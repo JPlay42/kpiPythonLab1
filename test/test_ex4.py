@@ -3,7 +3,7 @@ import unittest
 import ex4
 
 
-class MyTestCase(unittest.TestCase):
+class TestEx4(unittest.TestCase):
     def test_type_check(self):
         with self.assertRaises(TypeError):
             ex4.knapsack('elephant', [3, 4, 5])
